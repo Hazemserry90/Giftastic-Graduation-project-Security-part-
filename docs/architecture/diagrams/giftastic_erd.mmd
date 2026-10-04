@@ -1,0 +1,430 @@
+erDiagram
+    USER {
+        UUID id PK
+        string email UK
+        string passwordHash
+        boolean isBanned
+        boolean requestedAdmin
+        string fullName
+        string phoneNumber
+        string instapayRefundPhoneNumber
+        string instapayRefundName
+        date birthday
+    }
+
+    ADDRESS {
+        string label
+        string street
+        string city
+        string state
+        string zipCode
+        string country
+        boolean isDefault
+    }
+
+    ADMIN {
+        UUID userId PK
+    }
+
+    ADMIN_PERMISSION {
+        UUID userId FK
+        string permission
+    }
+
+    ADMIN_REQUEST {
+        UUID id PK
+        UUID userId FK
+        string message
+        string status
+        datetime requestedAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+        string reviewNotes
+        datetime canReapplyAt
+    }
+
+    VENDOR {
+        UUID userId PK
+        UUID supplierId UK
+        string storeName
+        string description
+        string logoUrl
+        string bannerUrl
+        string contactEmail
+        string contactPhone
+        string address
+        string websiteUrl
+        string instagramUrl
+        string facebookUrl
+        string workingHours
+        boolean isVerified
+    }
+
+    VENDOR_APPLICATION {
+        UUID id PK
+        UUID userId FK
+        string storeName
+        string description
+        string logoUrl
+        string bannerUrl
+        string contactEmail
+        string contactPhone
+        string address
+        string websiteUrl
+        string instagramUrl
+        string facebookUrl
+        string workingHours
+        string status
+        datetime submittedAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+        string rejectionReason
+    }
+
+    VENDOR_ACTIVITY {
+        UUID id PK
+        UUID vendorId FK
+        string activityType
+        string description
+        UUID relatedEntityId
+        string metadata
+        datetime occurredAt
+    }
+
+    PRODUCT {
+        UUID id PK
+        UUID supplierId FK
+        string name
+        string description
+        decimal price
+        string pricingMode
+        string status
+        datetime createdAt
+        datetime updatedAt
+        datetime publishedAt
+        string reviewRequestStatus
+        decimal averageRating
+        int reviewCount
+        int stockQuantity
+        decimal discountPercentage
+        datetime discountStartDate
+        datetime discountEndDate
+    }
+
+    PRODUCT_DETAILS {
+        UUID productId FK
+        boolean allowsEngraving
+        boolean allowsCustomMessage
+        boolean allowsGiftWrap
+        boolean requiresDeliveryDate
+        int minDeliveryDays
+        int maxDeliveryDays
+        string tags
+        string gender
+        string occasion
+        string recipientType
+        string vendorSku
+        boolean handmade
+        boolean madeToOrder
+        boolean customizable
+    }
+
+    PRODUCT_IMAGE {
+        UUID productId FK
+        UUID id
+        string url
+        boolean primary
+        int displayOrder
+    }
+
+    CATEGORY {
+        UUID id PK
+        UUID categoryId
+        string categoryName
+        string name
+    }
+
+    PRODUCT_CATEGORY {
+        UUID productId FK
+        UUID categoryId FK
+    }
+
+    CART {
+        UUID id PK
+        UUID customerId FK
+        datetime updatedAt
+    }
+
+    CART_ITEM {
+        UUID cartId FK
+        UUID productId FK
+        int quantity
+        string groupId
+        string metadata
+    }
+
+    ORDER {
+        UUID id PK
+        UUID customerId FK
+        string status
+        decimal totalAmount
+        datetime placedAt
+        string shippingAddress
+        string paymentMethod
+        string customerName
+        string customerEmail
+        string instapayPhoneNumber
+        datetime paymentMethodLockedAt
+        datetime paymentConfirmedAt
+        UUID paymentConfirmedBy FK
+        UUID deliveryZoneId FK
+        decimal deliveryCost
+        datetime estimatedDeliveryDate
+        datetime actualDeliveryDate
+        boolean commissionPaid
+    }
+
+    GUEST_INFO {
+        UUID orderId FK
+        string firstName
+        string lastName
+        string email
+        string phone
+        string shippingAddress
+    }
+
+    ORDER_ITEM {
+        UUID orderId FK
+        UUID productId FK
+        string productName
+        string imageUrl
+        int quantity
+        decimal price
+        UUID supplierId FK
+        string groupId
+        string metadata
+    }
+
+    DELIVERY_ZONE {
+        UUID id PK
+        string zoneName UK
+        string description
+        boolean isActive
+    }
+
+    VENDOR_DELIVERY_PRICING {
+        UUID vendorId PK,FK
+        UUID zoneId PK,FK
+        decimal deliveryCost
+        datetime updatedAt
+    }
+
+    GIFT_FLOW {
+        UUID id PK
+        UUID supplierId FK
+        string name
+        string description
+        string configuration
+        string imageUrl
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    FAVORITE {
+        UUID id PK
+        UUID userId FK
+        UUID productId FK
+        UUID flowId FK
+        datetime addedAt
+    }
+
+    REVIEW {
+        UUID id PK
+        UUID userId FK
+        string reviewType
+        UUID entityId
+        decimal rating
+        string comment
+        string status
+        datetime createdAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+        boolean isAnonymous
+        double contentScore
+        UUID orderId FK
+    }
+
+    VENDOR_FEEDBACK {
+        UUID id PK
+        UUID userId FK
+        UUID vendorId FK
+        int rating
+        string comment
+        string status
+        datetime createdAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+    }
+
+    USER_REVIEW_RESTRICTION {
+        UUID userId PK,FK
+        boolean canComment
+        boolean canReview
+        string reason
+        datetime restrictedAt
+        datetime expiresAt
+        UUID restrictedBy FK
+    }
+
+    REPORT {
+        UUID id PK
+        UUID reporterId FK
+        string reportType
+        UUID reportedEntityId
+        string reason
+        string description
+        string status
+        datetime createdAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+        string adminNotes
+    }
+
+    NOTIFICATION {
+        UUID id PK
+        UUID userId FK
+        string title
+        string message
+        string type
+        boolean read
+        datetime createdAt
+        string metadata
+    }
+
+    REMINDER {
+        UUID id PK
+        UUID customerId FK
+        string description
+        datetime scheduledAt
+        boolean processed
+    }
+
+    COMMISSION {
+        UUID id PK
+        UUID orderId FK
+        UUID supplierId FK
+        decimal orderSubtotal
+        decimal commissionRate
+        decimal commissionAmount
+        string direction
+        string status
+        datetime dueDate
+        datetime paidAt
+        datetime createdAt
+    }
+
+    COMMISSION_PAYMENT_REQUEST {
+        UUID id PK
+        UUID commissionId FK
+        UUID supplierId FK
+        string message
+        string proofImageUrl
+        string status
+        datetime submittedAt
+        datetime reviewedAt
+        UUID reviewedBy FK
+        string rejectionReason
+    }
+
+    COMMISSION_RULE {
+        UUID id PK
+        string type
+        UUID supplierId FK
+        decimal rate
+        datetime startDate
+        datetime endDate
+        boolean active
+        UUID createdBy FK
+        datetime createdAt
+    }
+
+    ORDER_ASSISTANCE_REQUEST {
+        UUID id PK
+        UUID orderId FK
+        UUID supplierId FK
+        string message
+        string status
+        datetime requestedAt
+        datetime resolvedAt
+        UUID resolvedBy FK
+        string resolution
+    }
+
+    ORDER_ASSISTANCE_MESSAGE {
+        UUID id PK
+        UUID requestId FK
+        UUID senderId FK
+        string senderRole
+        string message
+        datetime createdAt
+    }
+
+    USER ||--o{ ADDRESS : stores
+    USER ||--o| ADMIN : may_be
+    ADMIN ||--o{ ADMIN_PERMISSION : has
+    USER ||--o{ ADMIN_REQUEST : submits
+    ADMIN ||--o{ ADMIN_REQUEST : reviews
+
+    USER ||--o| VENDOR : owns
+    USER ||--o{ VENDOR_APPLICATION : submits
+    ADMIN ||--o{ VENDOR_APPLICATION : reviews
+    VENDOR ||--o{ VENDOR_ACTIVITY : records
+
+    VENDOR ||--o{ PRODUCT : supplies
+    PRODUCT ||--|| PRODUCT_DETAILS : embeds
+    PRODUCT ||--o{ PRODUCT_IMAGE : has
+    PRODUCT ||--o{ PRODUCT_CATEGORY : has
+    CATEGORY ||--o{ PRODUCT_CATEGORY : classifies
+
+    USER ||--o| CART : owns
+    CART ||--o{ CART_ITEM : contains
+    PRODUCT ||--o{ CART_ITEM : referenced_by
+
+    USER ||--o{ ORDER : places
+    ORDER ||--o{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : purchased_as
+    VENDOR ||--o{ ORDER_ITEM : fulfills
+    ORDER ||--o| GUEST_INFO : may_have
+    DELIVERY_ZONE ||--o{ ORDER : selected_for
+
+    DELIVERY_ZONE ||--o{ VENDOR_DELIVERY_PRICING : priced_in
+    VENDOR ||--o{ VENDOR_DELIVERY_PRICING : configures
+
+    VENDOR ||--o{ GIFT_FLOW : creates
+    USER ||--o{ FAVORITE : saves
+    PRODUCT ||--o{ FAVORITE : favorited_as_product
+    GIFT_FLOW ||--o{ FAVORITE : favorited_as_flow
+
+    USER ||--o{ REVIEW : writes
+    ORDER ||--o{ REVIEW : verifies
+    USER ||--o{ VENDOR_FEEDBACK : writes
+    VENDOR ||--o{ VENDOR_FEEDBACK : receives
+    USER ||--o| USER_REVIEW_RESTRICTION : may_have
+    ADMIN ||--o{ USER_REVIEW_RESTRICTION : applies
+
+    USER ||--o{ REPORT : submits
+    ADMIN ||--o{ REPORT : reviews
+    USER ||--o{ NOTIFICATION : receives
+    USER ||--o{ REMINDER : schedules
+
+    ORDER ||--o{ COMMISSION : produces
+    VENDOR ||--o{ COMMISSION : owes_or_receives
+    COMMISSION ||--o{ COMMISSION_PAYMENT_REQUEST : has
+    VENDOR ||--o{ COMMISSION_PAYMENT_REQUEST : submits
+    ADMIN ||--o{ COMMISSION_PAYMENT_REQUEST : reviews
+    VENDOR ||--o{ COMMISSION_RULE : targeted_by
+    ADMIN ||--o{ COMMISSION_RULE : creates
+
+    ORDER ||--o{ ORDER_ASSISTANCE_REQUEST : has
+    VENDOR ||--o{ ORDER_ASSISTANCE_REQUEST : requests
+    ORDER_ASSISTANCE_REQUEST ||--o{ ORDER_ASSISTANCE_MESSAGE : contains

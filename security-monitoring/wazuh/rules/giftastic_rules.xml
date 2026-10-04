@@ -1,0 +1,161 @@
+<!--
+  Giftastic application security rules for Wazuh.
+
+  Source events: the JSON lines emitted by
+  com.giftastic.giftastic.common.security.SecurityAuditLogger and written to
+  logs/security-audit.log (see giftastic-deployment-env/src/main/resources/logback-spring.xml).
+
+  Each event looks like:
+  {
+    "@timestamp": "2026-10-02T12:00:00.000Z",
+    "event_id": "…",
+    "event_type": "auth.login.failure",
+    "outcome": "failure",
+    "subject": "customer@example.com",
+    "source_ip": "203.0.113.10",
+    "method": "POST",
+    "path": "/api/v1/auth/login",
+    "reason": "BadCredentialsException"
+  }
+
+  The built-in `json` decoder parses each line into dynamic fields, so the rules
+  below match on field values rather than regular expressions.
+-->
+<group name="giftastic,application,">
+
+  <!-- Base rule: any event produced by the Giftastic audit channel. -->
+  <rule id="100200" level="0">
+    <decoded_as>json</decoded_as>
+    <field name="event_type">\.</field>
+    <description>Giftastic security audit event</description>
+    <options>no_full_log</options>
+  </rule>
+
+  <!-- ============================ Authentication ============================ -->
+
+  <rule id="100201" level="3">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^auth\.login\.success$</field>
+    <description>Giftastic: successful login for '$(subject)' from $(source_ip)</description>
+    <group>authentication_success,pci_dss_10.2.5,</group>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+  </rule>
+
+  <rule id="100210" level="5">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^auth\.login\.failure$</field>
+    <description>Giftastic: failed login for '$(subject)' from $(source_ip) ($(reason))</description>
+    <group>authentication_failed,pci_dss_10.2.4,pci_dss_10.2.5,</group>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- Brute force / credential stuffing against one source IP. -->
+  <rule id="100211" level="10" frequency="8" timeframe="120">
+    <if_matched_sid>100210</if_matched_sid>
+    <same_field>source_ip</same_field>
+    <description>Giftastic: multiple failed logins from $(source_ip) - possible brute force or credential stuffing</description>
+    <group>authentication_failures,pci_dss_10.2.4,pci_dss_11.4,</group>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- Password spraying: many failures against the same account from many IPs. -->
+  <rule id="100212" level="12" frequency="8" timeframe="300">
+    <if_matched_sid>100210</if_matched_sid>
+    <same_field>subject</same_field>
+    <different_field>source_ip</different_field>
+    <description>Giftastic: failed logins for '$(subject)' from multiple source IPs - possible password spraying</description>
+    <group>authentication_failures,pci_dss_10.2.4,pci_dss_11.4,</group>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- ====================== Authorization / access control ================= -->
+
+  <rule id="100220" level="7">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^authz\.access\.denied$</field>
+    <description>Giftastic: authorization denied for '$(subject)' on $(method) $(path)</description>
+    <group>access_denied,pci_dss_10.2.4,</group>
+    <mitre>
+      <id>T1548</id>
+    </mitre>
+  </rule>
+
+  <!-- Repeated denials from one principal: privilege probing / IDOR enumeration. -->
+  <rule id="100221" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>100220</if_matched_sid>
+    <same_field>subject</same_field>
+    <description>Giftastic: repeated authorization denials for '$(subject)' from $(source_ip) - possible privilege probing</description>
+    <group>access_denied,privilege_escalation,</group>
+    <mitre>
+      <id>T1548</id>
+    </mitre>
+  </rule>
+
+  <!-- Denials on known sensitive/admin/financial paths are raised to critical.
+       Matched with a path regex instead of a CDB list so no extra file needs
+       to be bind-mounted into the manager. -->
+  <rule id="100260" level="12">
+    <if_sid>100220</if_sid>
+    <field name="path" type="pcre2">^/api/v1/(admin|commissions|payments|payment|orders|vendors)(/.*)?$</field>
+    <description>Giftastic: authorization denied on sensitive path $(path) for '$(subject)' from $(source_ip)</description>
+    <group>access_denied,sensitive_operation,pci_dss_10.2.4,</group>
+    <mitre>
+      <id>T1548</id>
+    </mitre>
+  </rule>
+
+  <rule id="100230" level="3">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^authn\.required$</field>
+    <description>Giftastic: protected resource requested without valid authentication ($(method) $(path)) from $(source_ip)</description>
+    <group>authentication_required,invalid_token,</group>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+  <rule id="100231" level="9" frequency="10" timeframe="120">
+    <if_matched_sid>100230</if_matched_sid>
+    <same_field>source_ip</same_field>
+    <description>Giftastic: repeated unauthenticated access from $(source_ip) - token tampering or scanning</description>
+    <group>invalid_token,recon,</group>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+  <!-- ============================ Abuse controls ========================== -->
+
+  <rule id="100240" level="6">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^ratelimit\.exceeded$</field>
+    <description>Giftastic: rate limit exceeded for $(source_ip) on $(path)</description>
+    <group>rate_limit,recon,</group>
+  </rule>
+
+  <rule id="100241" level="10" frequency="5" timeframe="300">
+    <if_matched_sid>100240</if_matched_sid>
+    <same_field>source_ip</same_field>
+    <description>Giftastic: repeated rate-limit violations from $(source_ip) - possible automated attack</description>
+    <group>rate_limit,recon,</group>
+    <mitre>
+      <id>T1190</id>
+    </mitre>
+  </rule>
+
+  <rule id="100250" level="10">
+    <if_sid>100200</if_sid>
+    <field name="event_type">^authz\.account\.suspended$</field>
+    <description>Giftastic: suspended/banned account '$(subject)' attempted access from $(source_ip)</description>
+    <group>access_denied,suspended_account,</group>
+  </rule>
+
+</group>

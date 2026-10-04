@@ -1,0 +1,62 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/giftastic-gp}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # Automatically creates tables from your @Entity classes
+    show-sql: true # Prints SQL to console so you can debug
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: true
+  show-actuator: false
+
+# Payment Configuration
+payment:
+  instapay:
+    phone-number: ${INSTAPAY_PHONE_NUMBER}
+
+# Security Configuration
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+# Order Flow Configuration
+order-flow:
+  cancel-grace-period-minutes: 1
+  customer-problem-window-minutes: 8
+
+storage:
+  r2:
+    account-id: ${R2_ACCOUNT_ID:}
+    access-key-id: ${R2_ACCESS_KEY_ID:}
+    secret-access-key: ${R2_SECRET_ACCESS_KEY:}
+    bucket-name: ${R2_BUCKET_NAME:vendors}
+    public-url: ${R2_PUBLIC_URL:}

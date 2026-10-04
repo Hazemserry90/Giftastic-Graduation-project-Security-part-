@@ -1,0 +1,205 @@
+package com.giftastic.giftastic.modules.ai.service;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Component;
+
+import com.giftastic.giftastic.modules.product.domain.Product;
+import com.giftastic.giftastic.modules.product.repository.ProductRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * EXAMPLE: Machine Learning-based recommendation engine.
+ * 
+ * This is a template showing how to implement an ML-based engine.
+ * To use this:
+ * 1. Rename file to MLRecommendationEngine.java (remove .example)
+ * 2. Add your ML dependencies to pom.xml
+ * 3. Implement the actual ML logic
+ * 4. Update RecommendationConfig to use this engine
+ * 
+ * Possible ML Approaches:
+ * - Collaborative Filtering (user-user, item-item)
+ * - Matrix Factorization (SVD, ALS)
+ * - Deep Learning (Neural Collaborative Filtering)
+ * - Content-Based Filtering (TF-IDF, embeddings)
+ * - Hybrid Models
+ * 
+ * External Services:
+ * - AWS SageMaker
+ * - Google AI Platform
+ * - Azure ML
+ * - Custom TensorFlow/PyTorch models
+ */
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class MLRecommendationEngine implements RecommendationEngine {
+
+    private final ProductRepository productRepository;
+    // Add your ML service dependencies here:
+    // private final MLModelService mlModelService;
+    // private final EmbeddingService embeddingService;
+    // private final VectorDatabaseClient vectorDb;
+
+    @Override
+    public List<Product> recommendForUser(UUID customerId, int limit) {
+        log.debug("Generating ML-based recommendations for customer: {}", customerId);
+        
+        // EXAMPLE APPROACH 1: External ML Service
+        // List<UUID> recommendedProductIds = mlModelService.predict(customerId, limit);
+        // return productRepository.findAllById(recommendedProductIds);
+        
+        // EXAMPLE APPROACH 2: Collaborative Filtering
+        // List<UUID> similarUsers = findSimilarUsers(customerId);
+        // List<Product> theirPurchases = getProductsPurchasedBy(similarUsers);
+        // return filterAndRank(theirPurchases, customerId, limit);
+        
+        // EXAMPLE APPROACH 3: Deep Learning Model
+        // float[] userEmbedding = embeddingService.getUserEmbedding(customerId);
+        // List<Product> candidates = productRepository.findAll();
+        // return rankByEmbeddingSimilarity(userEmbedding, candidates, limit);
+        
+        // EXAMPLE APPROACH 4: Vector Database
+        // String userVector = vectorDb.getUserVector(customerId);
+        // return vectorDb.similaritySearch(userVector, limit);
+        
+        throw new UnsupportedOperationException("ML engine not yet implemented. Add your ML logic here.");
+    }
+
+    @Override
+    public List<Product> recommendBasedOnTags(List<String> tags, int limit) {
+        log.debug("ML-based tag search: {}", tags);
+        
+        // EXAMPLE: Semantic search using embeddings
+        // float[] queryEmbedding = embeddingService.getTextEmbedding(String.join(" ", tags));
+        // List<Product> allProducts = productRepository.findAll();
+        // return rankBySemanticSimilarity(queryEmbedding, allProducts, limit);
+        
+        throw new UnsupportedOperationException("ML tag search not yet implemented.");
+    }
+
+    @Override
+    public List<Product> getTrendingProducts(int limit) {
+        log.debug("ML-based trending analysis");
+        
+        // EXAMPLE: Time-series analysis of product popularity
+        // Map<UUID, Double> trendingScores = mlModelService.calculateTrendingScores();
+        // return productRepository.findAll().stream()
+        //     .sorted(Comparator.comparing(p -> trendingScores.getOrDefault(p.getId(), 0.0)).reversed())
+        //     .limit(limit)
+        //     .collect(Collectors.toList());
+        
+        throw new UnsupportedOperationException("ML trending analysis not yet implemented.");
+    }
+
+    @Override
+    public List<Product> getSimilarProducts(UUID productId, int limit) {
+        log.debug("ML-based similarity for product: {}", productId);
+        
+        // EXAMPLE APPROACH 1: Product embeddings
+        // float[] productEmbedding = embeddingService.getProductEmbedding(productId);
+        // List<Product> candidates = productRepository.findAll();
+        // return rankByEmbeddingSimilarity(productEmbedding, candidates, limit);
+        
+        // EXAMPLE APPROACH 2: Collaborative filtering (item-item)
+        // List<UUID> usersBoughtThis = findUsersPurchased(productId);
+        // Map<UUID, Integer> coOccurrence = calculateCoOccurrence(usersBoughtThis);
+        // return getTopCoOccurringProducts(coOccurrence, limit);
+        
+        // EXAMPLE APPROACH 3: Content-based (attributes)
+        // Product reference = productRepository.findById(productId).orElseThrow();
+        // return mlModelService.findSimilarByAttributes(reference, limit);
+        
+        throw new UnsupportedOperationException("ML similarity not yet implemented.");
+    }
+
+    @Override
+    public String getEngineName() {
+        return "ml";
+    }
+
+    // ========== Example Helper Methods ==========
+
+    /**
+     * EXAMPLE: Find users similar to the given user using collaborative filtering.
+     */
+    private List<UUID> findSimilarUsers(UUID customerId) {
+        // Implement user-user similarity
+        // Could use:
+        // - Cosine similarity on purchase vectors
+        // - Pearson correlation
+        // - Jaccard similarity
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    /**
+     * EXAMPLE: Calculate embedding similarity between query and products.
+     */
+    private List<Product> rankByEmbeddingSimilarity(float[] queryEmbedding, List<Product> candidates, int limit) {
+        // Implement cosine similarity ranking
+        // Sort by similarity score
+        // Return top N
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    /**
+     * EXAMPLE: Calculate semantic similarity for text-based search.
+     */
+    private List<Product> rankBySemanticSimilarity(float[] queryEmbedding, List<Product> candidates, int limit) {
+        // Similar to above but for text queries
+        throw new UnsupportedOperationException("Not implemented");
+    }
+
+    /**
+     * EXAMPLE: Calculate co-occurrence matrix for item-item collaborative filtering.
+     */
+    private java.util.Map<UUID, Integer> calculateCoOccurrence(List<UUID> users) {
+        // For each user, find what else they bought
+        // Count co-occurrences
+        // Return map of productId -> count
+        throw new UnsupportedOperationException("Not implemented");
+    }
+}
+
+/*
+ * DEPENDENCIES TO ADD TO pom.xml:
+ * 
+ * <!-- For TensorFlow -->
+ * <dependency>
+ *     <groupId>org.tensorflow</groupId>
+ *     <artifactId>tensorflow-core-platform</artifactId>
+ *     <version>0.5.0</version>
+ * </dependency>
+ * 
+ * <!-- For DL4J (Deep Learning for Java) -->
+ * <dependency>
+ *     <groupId>org.deeplearning4j</groupId>
+ *     <artifactId>deeplearning4j-core</artifactId>
+ *     <version>1.0.0-M2.1</version>
+ * </dependency>
+ * 
+ * <!-- For Apache Mahout (Collaborative Filtering) -->
+ * <dependency>
+ *     <groupId>org.apache.mahout</groupId>
+ *     <artifactId>mahout-mr</artifactId>
+ *     <version>14.1</version>
+ * </dependency>
+ * 
+ * <!-- For Vector Database (Pinecone, Weaviate, etc.) -->
+ * <dependency>
+ *     <groupId>io.pinecone</groupId>
+ *     <artifactId>pinecone-client</artifactId>
+ *     <version>0.2.0</version>
+ * </dependency>
+ * 
+ * <!-- For AWS SageMaker -->
+ * <dependency>
+ *     <groupId>software.amazon.awssdk</groupId>
+ *     <artifactId>sagemakerruntime</artifactId>
+ *     <version>2.20.0</version>
+ * </dependency>
+ */

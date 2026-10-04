@@ -1,0 +1,15 @@
+# Local lab secrets
+.env
+
+# Generated TLS certificates and keys - never commit
+config/wazuh_indexer_ssl_certs/*
+!config/wazuh_indexer_ssl_certs/.gitkeep
+
+# Runtime telemetry collected from Giftastic and Cowrie
+logs/**/*.log
+logs/**/*.json
+logs/**/*.jsonl
+logs/**/*.gz
+
+# Cowrie honeypot captured artifacts
+cowrie/var/

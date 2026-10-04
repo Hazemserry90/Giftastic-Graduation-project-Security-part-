@@ -1,0 +1,359 @@
+GIFTASTIC USER STORIES
+Top 25 Most Important User Stories
+
+Project Name: Giftastic
+Document Type: User Story Specification
+Prepared for: Project Supervision and Review
+
+
+1. USER STORY US-001: User Registration
+
+As a new visitor,
+I want to create a customer account,
+So that I can use the platform as a registered user and access personal features such as orders, favorites, reminders, and notifications.
+
+Acceptance Criteria:
+1. The user can open the registration page from the navigation flow.
+2. The user can enter required details such as name, email, password, and contact information.
+3. The system validates the registration data before creating the account.
+4. The system prevents registration with invalid or unsafe input.
+5. After successful registration, the user account is created and can be used to log in.
+
+
+2. USER STORY US-002: User Login
+
+As a registered user,
+I want to log in using my email and password,
+So that I can access my personal account and protected platform features.
+
+Acceptance Criteria:
+1. The user can enter login credentials on the login page.
+2. The system verifies the credentials.
+3. The system creates an authenticated session after successful login.
+4. The system rejects invalid login attempts with a clear error message.
+5. The system redirects the user to the appropriate authenticated experience after login.
+
+
+3. USER STORY US-003: Browse Products
+
+As a shopper,
+I want to browse approved products in the catalog,
+So that I can find suitable gifts to buy.
+
+Acceptance Criteria:
+1. The product catalog displays approved products only.
+2. Each product listing shows key information such as name, price, image, vendor, and availability.
+3. The user can open a product details page from the catalog.
+4. The catalog supports filtering and search where available.
+5. Products that are not approved are not shown to ordinary shoppers.
+
+
+4. USER STORY US-004: View Product Details
+
+As a shopper,
+I want to view full details about a product,
+So that I can decide whether the product is suitable before adding it to my cart.
+
+Acceptance Criteria:
+1. The product details page shows the product name, price, images, description, vendor, categories, stock information, and ratings where available.
+2. The user can see whether the product is available.
+3. The user can add the product to the cart if it is available.
+4. The user can see related recommendations where available.
+5. The system displays a clear message if the product cannot be found.
+
+
+5. USER STORY US-005: Search Across the Platform
+
+As a shopper,
+I want to search for products, vendors, and gift flows from one search area,
+So that I can quickly find relevant gift options.
+
+Acceptance Criteria:
+1. The user can enter a search term in the global search field.
+2. The system returns matching products, vendors, and gift flows.
+3. The user can select a result and navigate to its details page.
+4. The search handles empty or very short input safely.
+5. The system does not expose private or unauthorized records in search results.
+
+
+6. USER STORY US-006: Use Recommendations
+
+As a shopper,
+I want to see recommended products,
+So that I can discover suitable gifts without searching manually.
+
+Acceptance Criteria:
+1. The system can display trending products.
+2. The system can display similar products on product-related pages.
+3. The system can display personalized recommendations for logged-in users.
+4. The system can display frequently bought products and recently bought products.
+5. Recommendation results only include products that can be publicly shown.
+
+
+7. USER STORY US-007: Manage Cart
+
+As a shopper,
+I want to add products to a shopping cart and manage the cart contents,
+So that I can prepare an order before checkout.
+
+Acceptance Criteria:
+1. The user can add products to the cart.
+2. The user can update product quantities.
+3. The user can remove individual products from the cart.
+4. The user can clear the cart.
+5. The system calculates and displays the cart subtotal.
+
+
+8. USER STORY US-008: Validate Cart Stock
+
+As a shopper,
+I want the system to check product availability before checkout,
+So that I do not place an order for unavailable products.
+
+Acceptance Criteria:
+1. The system checks whether all cart items have valid stock information.
+2. The system prevents checkout if an item is unavailable.
+3. The system prevents checkout if an item is out of stock.
+4. The system prevents checkout if the requested quantity is greater than available stock.
+5. The system shows a clear message explaining the stock problem.
+
+
+9. USER STORY US-009: Registered Customer Checkout
+
+As a registered customer,
+I want to place an order using my cart and saved account details,
+So that I can buy gifts through the platform.
+
+Acceptance Criteria:
+1. The customer can open checkout from the cart.
+2. The customer can enter or select delivery information.
+3. The customer must select a delivery zone.
+4. The customer can choose an available payment method.
+5. The system creates an order after successful checkout and clears the customer's cart.
+
+
+10. USER STORY US-010: Guest Checkout
+
+As a guest shopper,
+I want to place an order without creating an account,
+So that I can complete a purchase quickly.
+
+Acceptance Criteria:
+1. The guest can add products to a local cart.
+2. The guest can enter name, email, phone, address, delivery zone, and payment method during checkout.
+3. The system validates required guest information before order placement.
+4. The system creates a guest order after successful checkout.
+5. The system saves the guest order reference locally in the browser for later tracking.
+
+
+11. USER STORY US-011: Delivery Zone and Delivery Cost
+
+As a shopper,
+I want to select a delivery zone and see delivery costs before placing an order,
+So that I understand the total price of the order.
+
+Acceptance Criteria:
+1. The checkout page displays available delivery zones.
+2. The user must select a delivery zone before submitting the order.
+3. The system calculates delivery cost based on vendor and selected zone.
+4. The system displays a delivery cost breakdown by vendor.
+5. The order total includes product subtotal and delivery cost.
+
+
+12. USER STORY US-012: Instapay Payment Submission
+
+As a customer using Instapay,
+I want to submit transaction IDs after placing my order,
+So that the payment can be reviewed and confirmed.
+
+Acceptance Criteria:
+1. The customer can choose Instapay when it is available.
+2. The system displays the configured Instapay phone number.
+3. The customer can enter transaction IDs on the order details page.
+4. The system saves the submitted transaction IDs.
+5. The order remains pending confirmation until an authorized administrator confirms or rejects the payment.
+
+
+13. USER STORY US-013: Order History and Tracking
+
+As a customer or guest user,
+I want to view my order history and order details,
+So that I can track the status of my purchases.
+
+Acceptance Criteria:
+1. A registered customer can view orders linked to their account.
+2. A guest user can view guest orders saved in the same browser.
+3. The user can open an order details page.
+4. The order details page shows order items, payment details, delivery information, status, and total amount.
+5. Unauthorized users cannot view orders that do not belong to them.
+
+
+14. USER STORY US-014: Payment Change and Cancellation Window
+
+As a registered customer,
+I want to change my payment method or cancel my order shortly after placing it,
+So that I can correct mistakes immediately after checkout.
+
+Acceptance Criteria:
+1. The system allows payment method changes only during the configured payment-change window.
+2. The system allows order cancellation only during the configured cancellation window.
+3. The order details page shows the remaining time while the window is open.
+4. The system blocks payment changes after the window closes.
+5. The system blocks cancellation after the window closes.
+
+
+15. USER STORY US-015: Gift Flow Shopping
+
+As a shopper,
+I want to use a guided gift flow,
+So that I can choose a gift through a step-by-step experience.
+
+Acceptance Criteria:
+1. The user can browse available gift flows.
+2. The user can open and follow a selected gift flow.
+3. The gift flow presents configured steps and product choices.
+4. The user can add selected gift-flow products to the cart.
+5. Gift-flow items are grouped in the cart so they remain connected to the same gift flow.
+
+
+16. USER STORY US-016: Favorites
+
+As a registered customer,
+I want to save favorite products and gift flows,
+So that I can return to them later.
+
+Acceptance Criteria:
+1. The customer can add a product to favorites.
+2. The customer can add a gift flow to favorites.
+3. The customer can remove a saved favorite.
+4. The customer can view all favorites on the favorites page.
+5. Favorites are linked to the customer's account.
+
+
+17. USER STORY US-017: Customer Reminders
+
+As a registered customer,
+I want to create gift reminders,
+So that I can be notified about important dates.
+
+Acceptance Criteria:
+1. The customer can create a reminder with a description and scheduled date/time.
+2. The system rejects reminders scheduled in the past.
+3. The customer can edit an existing active reminder.
+4. The customer can delete an existing reminder.
+5. The system creates an in-app notification when a reminder becomes due.
+
+
+18. USER STORY US-018: Notifications
+
+As an authenticated user,
+I want to view and manage notifications,
+So that I can keep track of important platform updates.
+
+Acceptance Criteria:
+1. The user can view a list of notifications.
+2. The user can see the unread notification count.
+3. The user can mark one notification as read.
+4. The user can mark all notifications as read.
+5. The user cannot access notifications belonging to another user.
+
+
+19. USER STORY US-019: Review and Feedback Submission
+
+As a registered user,
+I want to submit reviews and vendor feedback,
+So that I can share my experience with products or vendors.
+
+Acceptance Criteria:
+1. The user can submit a review for a supported entity.
+2. The user can submit vendor feedback.
+3. The system validates review and feedback content.
+4. Submitted reviews and feedback can be reviewed by moderators or administrators.
+5. Approved reviews can be shown publicly where appropriate.
+
+
+20. USER STORY US-020: Report Submission
+
+As a user,
+I want to report inappropriate content or platform issues,
+So that administrators can review and take action.
+
+Acceptance Criteria:
+1. The user can open a report form from supported areas.
+2. The user can choose a report type and provide details.
+3. The system saves the report.
+4. The user can view reports submitted by their own account.
+5. Administrators can later review and update the report status.
+
+
+21. USER STORY US-021: Vendor Application and Onboarding
+
+As a registered user,
+I want to apply to become a vendor,
+So that I can sell products on the platform after approval.
+
+Acceptance Criteria:
+1. The user can open the vendor application form.
+2. The user can submit store name, description, contact details, address, website, and social links where applicable.
+3. The system stores the application with a review status.
+4. The applicant can view their submitted applications.
+5. An authorized administrator can approve or reject the application.
+
+
+22. USER STORY US-022: Vendor Product Management
+
+As a vendor,
+I want to create, edit, and submit products for approval,
+So that my products can be sold on the platform.
+
+Acceptance Criteria:
+1. The vendor can create a product with required product details.
+2. The vendor can edit products that belong to their store.
+3. The vendor can submit a product for approval.
+4. The vendor can view their product list.
+5. The system prevents a vendor from managing products belonging to another vendor.
+
+
+23. USER STORY US-023: Vendor Order Management
+
+As a vendor,
+I want to view and update orders related to my products,
+So that I can manage fulfillment.
+
+Acceptance Criteria:
+1. The vendor can view orders containing products from their store.
+2. The vendor can see order details relevant to their fulfillment work.
+3. The vendor can update their portion of the order status.
+4. The vendor can provide delivery estimates or delay notices where applicable.
+5. The system prevents a vendor from managing order portions belonging to another vendor.
+
+
+24. USER STORY US-024: Vendor Commission Management
+
+As a vendor,
+I want to view commissions and submit payment proof,
+So that financial obligations with the platform can be tracked and completed.
+
+Acceptance Criteria:
+1. The vendor can view pending commissions.
+2. The vendor can view commission history.
+3. The vendor can submit payment proof for commissions owed to the platform.
+4. The vendor can view payment requests and their statuses.
+5. Commission eligibility respects the configured customer problem window.
+
+
+25. USER STORY US-025: Administrator Platform Management
+
+As an authorized administrator,
+I want to manage users, vendors, products, orders, reports, reviews, categories, notifications, commissions, and permissions,
+So that the platform remains controlled, accurate, and safe for all users.
+
+Acceptance Criteria:
+1. The administrator can access the admin dashboard only when authenticated and authorized.
+2. The administrator can perform actions only when their permissions allow those actions.
+3. The administrator can manage users, including viewing, banning, unbanning, deleting, promoting, and demoting where permitted.
+4. The administrator can manage product approvals, vendor applications, reports, reviews, categories, orders, notifications, commissions, and analytics where permitted.
+5. The backend enforces all administrative permissions even if an endpoint is called directly.
+
+
+END OF DOCUMENT

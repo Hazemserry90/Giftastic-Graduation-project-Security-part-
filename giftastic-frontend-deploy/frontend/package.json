@@ -1,0 +1,42 @@
+{
+  "name": "giftastic-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/validate-deployment-env.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "test:user-model": "node --test src/ui/entities/user/__tests__/*.test.js",
+    "test:vendor-model": "node --test src/ui/entities/vendor/__tests__/*.test.js",
+    "test:product-model": "node --test src/ui/entities/product/__tests__/*.test.js",
+    "test:workflow-models": "node --test src/ui/entities/__tests__/*.test.js",
+    "test:phase1": "node --test src/ui/entities/__tests__/*.test.js src/ui/entities/*/__tests__/*.test.js src/ui/projections/*/__tests__/*.test.js src/ui/commands/*/__tests__/*.test.js",
+    "test:phase1-semantic": "node scripts/phase1SemanticVerification.mjs"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "lucide-react": "^1.14.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hot-toast": "^2.6.0",
+    "react-router-dom": "^6.22.0",
+    "zustand": "^4.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.4"
+  }
+}

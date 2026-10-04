@@ -1,0 +1,21 @@
+# Fake credential store for the Giftastic Cowrie honeypot.
+#
+# Format: username:x:password  (':' separated)
+#   '*'  matches any username or password
+#   '!'  at the start of a password denies that password
+#   '/…/' treats the password as a regular expression
+#
+# The policy below rejects a few obvious passwords (so we still record failed
+# logins) and accepts everything else, which keeps attackers in the session long
+# enough to capture their commands and tooling.
+
+root:x:!root
+root:x:!123456
+root:x:!password
+admin:x:!admin
+admin:x:*
+root:x:*
+*:x:admin
+*:x:password
+*:x:123456
+*:x:*

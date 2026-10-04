@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Giftastic logging configuration.
+
+    In addition to the normal console output, this file defines a dedicated,
+    machine-readable security audit channel. Events written by
+    com.giftastic.giftastic.common.security.SecurityAuditLogger go to the
+    SECURITY_AUDIT logger and are appended as one JSON object per line.
+
+    The Wazuh agent on the Giftastic host tails this file (see
+    security-monitoring/wazuh/agent/ossec-agent.conf) and forwards each line to
+    the Wazuh manager, where the custom decoder and rules turn it into alerts.
+
+    Override the destination with the SECURITY_AUDIT_LOG_FILE environment
+    variable. On ephemeral hosts (for example Railway) mount a volume or ship
+    the file with a log forwarder before the container is replaced.
+-->
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <!--
+      Read the destination from the Spring Environment (application.yaml, .env,
+      or process environment) so the value behaves like any other backend
+      setting.
+    -->
+    <springProperty scope="context" name="AUDIT_LOG_FILE"
+                    source="SECURITY_AUDIT_LOG_FILE"
+                    defaultValue="logs/security-audit.log"/>
+
+    <appender name="SECURITY_AUDIT_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${AUDIT_LOG_FILE}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${AUDIT_LOG_FILE}.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>14</maxHistory>
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+
+        <!-- Emit only the JSON payload so each line is valid JSON for the SIEM. -->
+        <encoder>
+            <pattern>%msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="SECURITY_AUDIT" level="INFO" additivity="false">
+        <appender-ref ref="SECURITY_AUDIT_FILE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

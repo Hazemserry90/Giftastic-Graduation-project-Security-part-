@@ -1,0 +1,600 @@
+GIFTASTIC SYSTEM REQUIREMENTS
+Functional and Non-Functional Requirements
+
+Project Name: Giftastic
+Document Type: Requirements Specification
+Prepared for: Project Supervision and Review
+
+
+1. INTRODUCTION
+
+Giftastic is an online gift-shopping platform that supports customers, guest users, vendors, and administrators. The system allows customers to browse gifts, use guided gift flows, manage a cart, place orders, track payments, submit reviews, save favorites, and receive reminders. Vendors can manage products, orders, delivery pricing, gift flows, analytics, and commissions. Administrators can manage users, vendors, products, categories, reports, reviews, commissions, permissions, and platform notifications.
+
+This document defines the functional and non-functional requirements for the Giftastic system.
+
+
+2. SYSTEM USERS
+
+2.1 Guest User
+A guest user can browse public content, add products or gift-flow items to a local cart, place a guest order, and track guest orders saved in the same browser.
+
+2.2 Registered Customer
+A registered customer can use all guest features, save account information, manage addresses, save favorites, create reminders, view notifications, place orders, track order history, submit reviews, and request admin access.
+
+2.3 Vendor
+A vendor can manage a vendor profile, upload and maintain products, create gift flows, manage vendor orders, update delivery pricing, view vendor analytics, view activity history, and manage commission-related tasks.
+
+2.4 Administrator
+An administrator can manage the platform according to the permissions assigned to their account. Admin capabilities include managing users, vendors, products, categories, orders, reports, reviews, notifications, commissions, analytics, and admin permissions.
+
+2.5 Super Administrator
+A super administrator has full access to all administrative functions and can grant or revoke permissions for other administrators.
+
+
+3. FUNCTIONAL REQUIREMENTS
+
+FR-001 User Registration
+The system shall allow new users to create an account by providing required registration information, including name, email, password, and contact details where required.
+
+FR-002 Login
+The system shall allow registered users to log in using valid credentials.
+
+FR-003 Session Handling
+The system shall maintain authenticated sessions using token-based authentication and shall restrict protected pages and backend endpoints to authorized users only.
+
+FR-004 Role-Based Access
+The system shall support customer, vendor, administrator, and super administrator roles.
+
+FR-005 Permission-Based Administration
+The system shall allow administrator actions to be controlled by specific permissions, such as viewing users, managing products, reviewing reports, managing categories, sending notifications, and managing commissions.
+
+FR-006 Banned User Handling
+The system shall prevent banned users from continuing normal account activity and shall direct them to a banned-user page.
+
+FR-007 Customer Profile Management
+The system shall allow registered customers to view and update their personal profile information.
+
+FR-008 Customer Address Management
+The system shall allow registered customers to add, update, and save delivery addresses for future checkout use.
+
+FR-009 Instapay Refund Details
+The system shall allow registered customers to save Instapay refund phone and account-name details for payment-related refunds.
+
+FR-010 Public User Profile
+The system shall allow users to view a limited public profile for another user.
+
+FR-011 Admin Access Request
+The system shall allow a registered user to submit a request to become an administrator.
+
+FR-012 Admin Request Review
+The system shall allow authorized administrators to view, approve, reject, invalidate, and reset cooldowns for admin access requests.
+
+FR-013 Vendor Application
+The system shall allow registered users to submit an application to become vendors by providing store information and contact details.
+
+FR-014 Vendor Application History
+The system shall allow applicants to view their submitted vendor applications and their statuses.
+
+FR-015 Vendor Application Review
+The system shall allow authorized administrators to review, approve, or reject vendor applications.
+
+FR-016 Vendor Activation
+The system shall allow authorized administrators to activate or deactivate vendor accounts.
+
+FR-017 Vendor Profile Management
+The system shall allow vendors to view and update their store profile, including store name, description, contact information, address, website, social links, and operating hours.
+
+FR-018 Public Vendor Catalog
+The system shall show a public list of active vendors.
+
+FR-019 Public Vendor Profile
+The system shall show a public vendor profile containing vendor details, related products, and related gift flows.
+
+FR-020 Product Catalog
+The system shall show a public product catalog containing approved products.
+
+FR-021 Product Details
+The system shall show product details, including name, description, price, images, vendor, category information, stock information, ratings, and other product attributes.
+
+FR-022 Product Filtering
+The system shall allow users to filter and browse products by supported criteria such as category, price range, vendor, and search terms.
+
+FR-023 Product Search
+The system shall allow users to search products through the product search interface.
+
+FR-024 Global Search
+The system shall allow users to search across products, vendors, and gift flows from a shared search component.
+
+FR-025 Vendor Product Creation
+The system shall allow vendors to create products with all required product details, including price, quantity, images, categories, and delivery-related product information.
+
+FR-026 Vendor Product Editing
+The system shall allow vendors to edit their own products.
+
+FR-027 Vendor Product Deletion
+The system shall allow vendors to delete their own products where permitted.
+
+FR-028 Product Submission for Approval
+The system shall allow vendors to submit products for administrator approval.
+
+FR-029 Product Approval
+The system shall allow authorized administrators to approve submitted products.
+
+FR-030 Product Rejection
+The system shall allow authorized administrators to reject submitted products and provide a rejection reason when needed.
+
+FR-031 Product Activation and Deactivation
+The system shall allow authorized administrators to activate or deactivate products.
+
+FR-032 Product Discount Management
+The system shall allow vendors or authorized administrators to add and remove discounts from products.
+
+FR-033 Category Listing
+The system shall allow users to view product categories.
+
+FR-034 Category Creation
+The system shall allow authorized administrators to create categories.
+
+FR-035 Category Editing
+The system shall allow authorized administrators to update category names.
+
+FR-036 Category Deletion
+The system shall allow authorized administrators to delete categories.
+
+FR-037 Product Recommendations
+The system shall show product recommendations such as trending products, similar products, personalized recommendations, frequently bought products, and products recently bought by others.
+
+FR-038 Shopping Cart
+The system shall allow customers and guests to add products to a cart.
+
+FR-039 Cart Quantity Update
+The system shall allow users to update product quantities in the cart.
+
+FR-040 Cart Item Removal
+The system shall allow users to remove individual products from the cart.
+
+FR-041 Cart Group Removal
+The system shall allow users to remove grouped cart items created through gift flows.
+
+FR-042 Cart Clearing
+The system shall allow users to clear all items from the cart.
+
+FR-043 Cart Stock Validation
+The system shall check stock status before checkout and shall prevent checkout when products are unavailable, out of stock, or requested above available quantity.
+
+FR-044 Guest Cart
+The system shall support a local cart for guest users.
+
+FR-045 Registered Customer Cart
+The system shall store registered customer carts on the backend.
+
+FR-046 Checkout
+The system shall allow users to place orders from cart contents after providing delivery and payment information.
+
+FR-047 Guest Checkout
+The system shall allow guest users to place orders using guest contact information.
+
+FR-048 Delivery Zone Selection
+The system shall require users to select a delivery zone during checkout.
+
+FR-049 Delivery Cost Calculation
+The system shall calculate delivery costs based on vendor and delivery zone.
+
+FR-050 Delivery Cost Breakdown
+The system shall display a delivery cost breakdown by vendor during checkout.
+
+FR-051 Cash on Delivery Payment
+The system shall allow users to select cash on delivery as a payment method.
+
+FR-052 Instapay Payment
+The system shall allow users to select Instapay as a payment method when Instapay is available.
+
+FR-053 Instapay Phone Display
+The system shall display the configured Instapay phone number during checkout.
+
+FR-054 Instapay Transaction IDs
+The system shall allow customers and guest users to submit one or more Instapay transaction IDs for pending Instapay orders.
+
+FR-055 Payment Method Change Window
+The system shall allow registered customers to change payment method within the configured payment-change window after order placement.
+
+FR-056 Order Cancellation Window
+The system shall allow registered customers to cancel an order within the configured cancellation window after order placement.
+
+FR-057 Order Creation
+The system shall create an order with customer or guest details, selected products, quantities, delivery zone, delivery cost, payment method, and total amount.
+
+FR-058 Customer Order History
+The system shall allow registered customers to view their order history.
+
+FR-059 Guest Order History
+The system shall allow guest users to view guest orders saved in the same browser.
+
+FR-060 Guest Order Tracking
+The system shall allow guest users to track an order using the saved order reference and matching guest contact details.
+
+FR-061 Order Details
+The system shall allow customers and authorized users to view order details.
+
+FR-062 Admin Order Management
+The system shall allow authorized administrators to view all orders and update order status.
+
+FR-063 Payment Confirmation
+The system shall allow authorized administrators to confirm or reject pending Instapay payments.
+
+FR-064 Vendor Order Listing
+The system shall allow vendors to view orders related to their products.
+
+FR-065 Vendor Order Status Update
+The system shall allow vendors to update the status of their portion of an order.
+
+FR-066 Delivery Estimate
+The system shall allow a vendor or authorized user to add a delivery estimate to an order.
+
+FR-067 Delivery Delay Notification
+The system shall allow a vendor or authorized user to notify the customer about a delivery delay.
+
+FR-068 Order Assistance Request
+The system shall allow vendors to request assistance for order-related issues.
+
+FR-069 Order Assistance Review
+The system shall allow administrators to view, reply to, resolve, and close assistance requests.
+
+FR-070 Gift Flow Catalog
+The system shall show a public catalog of gift flows.
+
+FR-071 Gift Flow Details and Execution
+The system shall allow users to open and follow a gift flow step by step.
+
+FR-072 Gift Flow Cart Integration
+The system shall allow selected gift-flow products to be added to the cart as grouped items.
+
+FR-073 Vendor Gift Flow Creation
+The system shall allow vendors to create gift flows with a name, description, image, and configuration.
+
+FR-074 Vendor Gift Flow Editing
+The system shall allow vendors to update their own gift flows.
+
+FR-075 Vendor Gift Flow Deletion
+The system shall allow vendors to delete their own gift flows.
+
+FR-076 Admin Gift Flow Deletion
+The system shall allow authorized administrators to delete gift flows.
+
+FR-077 Favorites
+The system shall allow registered users to save favorite products and gift flows.
+
+FR-078 Favorite Removal
+The system shall allow registered users to remove saved favorites.
+
+FR-079 Favorites Page
+The system shall allow registered users to view all saved favorites.
+
+FR-080 Review Submission
+The system shall allow registered users to submit reviews for supported entities.
+
+FR-081 Review Listing
+The system shall display approved reviews for products and supported entities.
+
+FR-082 My Reviews
+The system shall allow registered users to view their submitted reviews.
+
+FR-083 Vendor Feedback
+The system shall allow users to submit feedback about vendors.
+
+FR-084 Review Moderation
+The system shall allow authorized administrators or moderators to approve or reject reviews.
+
+FR-085 Vendor Feedback Moderation
+The system shall allow authorized administrators or moderators to approve or reject vendor feedback.
+
+FR-086 User Review Restrictions
+The system shall allow authorized administrators to restrict or restore a user's ability to comment or review.
+
+FR-087 Report Submission
+The system shall allow users to report supported entities or issues.
+
+FR-088 My Reports
+The system shall allow users to view their submitted reports.
+
+FR-089 Report Management
+The system shall allow authorized administrators to view reports, filter reports by status, and inspect report details.
+
+FR-090 Report Status Updates
+The system shall allow authorized administrators to mark reports as under review, action taken, dismissed, or resolved.
+
+FR-091 In-App Notifications
+The system shall store and display in-app notifications for users.
+
+FR-092 Unread Notification Count
+The system shall display the number of unread notifications for an authenticated user.
+
+FR-093 Mark Notification as Read
+The system shall allow a user to mark a notification as read.
+
+FR-094 Mark All Notifications as Read
+The system shall allow a user to mark all notifications as read.
+
+FR-095 Admin Notification Sending
+The system shall allow authorized administrators to send system notifications to selected audiences.
+
+FR-096 Reminder Creation
+The system shall allow registered users to create reminders with a description and scheduled date/time.
+
+FR-097 Reminder Editing
+The system shall allow registered users to update their own active reminders.
+
+FR-098 Reminder Deletion
+The system shall allow registered users to delete their own reminders.
+
+FR-099 Reminder Limit
+The system shall limit the number of active reminders per user to the configured maximum.
+
+FR-100 Reminder Processing
+The system shall process due reminders on a schedule and create in-app notifications for the related users.
+
+FR-101 Vendor Delivery Pricing
+The system shall allow vendors to configure delivery prices for supported delivery zones.
+
+FR-102 Delivery Zones
+The system shall maintain active delivery zones and make them available during checkout and vendor pricing configuration.
+
+FR-103 Vendor Analytics
+The system shall allow vendors to view analytics for their own store, including products, orders, revenue, reviews, top products, revenue history, and order status breakdown.
+
+FR-104 Vendor Activity History
+The system shall allow vendors to view activity records related to their store.
+
+FR-105 Platform Analytics
+The system shall allow authorized administrators to view platform-level analytics and key metrics.
+
+FR-106 Financial Analytics
+The system shall allow authorized administrators to view financial analytics related to orders, payments, commissions, and payouts.
+
+FR-107 Commission Calculation
+The system shall calculate commissions for successful vendor order portions according to configured rules.
+
+FR-108 Commission Rules
+The system shall allow authorized administrators to create and deactivate commission rules.
+
+FR-109 Current Commission Rate
+The system shall allow the frontend to retrieve the applicable commission rate for a vendor.
+
+FR-110 Vendor Commission View
+The system shall allow vendors to view pending commissions, payment requests, and commission history.
+
+FR-111 Commission Payment Proof
+The system shall allow vendors to submit payment proof for commissions owed to the platform.
+
+FR-112 Commission Payment Review
+The system shall allow authorized administrators to approve or reject commission payment requests.
+
+FR-113 Platform Payout Tracking
+The system shall allow vendors and administrators to track payout-related commission records.
+
+FR-114 Customer Problem Window
+The system shall delay commission eligibility until the configured customer problem window has passed after the vendor portion is completed.
+
+FR-115 Admin User Listing
+The system shall allow authorized administrators to view registered users.
+
+FR-116 Admin User Ban
+The system shall allow authorized administrators to ban users.
+
+FR-117 Admin User Unban
+The system shall allow authorized administrators to unban users.
+
+FR-118 Admin User Deletion
+The system shall allow authorized administrators to delete users.
+
+FR-119 Admin Promotion
+The system shall allow authorized administrators to promote users to administrator status.
+
+FR-120 Admin Demotion
+The system shall allow authorized administrators to demote administrators where permitted.
+
+FR-121 Admin Permission Grant
+The system shall allow authorized administrators to grant permissions to administrators.
+
+FR-122 Admin Permission Revoke
+The system shall allow authorized administrators to revoke permissions from administrators.
+
+FR-123 Protected Routing
+The frontend shall prevent users from opening protected pages without the required authentication, role, or permission.
+
+FR-124 Backend Authorization
+The backend shall enforce authorization for protected operations, even if a user attempts to call an endpoint directly.
+
+FR-125 Error Messages
+The system shall show clear error messages when an action cannot be completed, including validation errors, permission errors, unavailable stock, payment problems, and failed network requests.
+
+
+4. NON-FUNCTIONAL REQUIREMENTS
+
+NFR-001 Security
+The system shall protect authenticated areas using secure token-based authentication.
+
+NFR-002 Authorization
+The system shall enforce role-based and permission-based authorization on both frontend routes and backend endpoints.
+
+NFR-003 Password Protection
+The system shall not expose passwords in frontend code, API responses, logs, or error messages.
+
+NFR-004 Sensitive Data Handling
+The system shall avoid exposing sensitive user, payment, and administrator information to unauthorized users.
+
+NFR-005 Input Validation
+The system shall validate user input on the frontend and backend before processing requests.
+
+NFR-006 URL Safety
+The system shall validate submitted URLs where users provide image, website, or social-media links.
+
+NFR-007 Review and Report Moderation
+The system shall provide controls for moderating user-generated reviews, feedback, and reports to reduce misuse.
+
+NFR-008 Rate Limiting
+The system shall include request rate limiting to reduce abuse of backend endpoints.
+
+NFR-009 Access Isolation
+The system shall prevent customers from accessing another customer's private cart, order, reminder, notification, or profile data.
+
+NFR-010 Vendor Isolation
+The system shall prevent vendors from managing products, orders, gift flows, analytics, delivery pricing, activities, or commissions belonging to other vendors.
+
+NFR-011 Admin Permission Isolation
+The system shall prevent administrators from performing actions outside their granted permissions.
+
+NFR-012 Availability
+The system shall remain available for normal browsing, checkout, vendor operations, and administration during regular use.
+
+NFR-013 Reliability
+The system shall handle failed requests without corrupting user data or leaving incomplete records in an invalid state.
+
+NFR-014 Data Consistency
+The system shall keep cart totals, order totals, delivery costs, commission amounts, payment statuses, and stock-related values consistent between backend and frontend.
+
+NFR-015 Transaction Safety
+The system shall use backend transactions for operations that update multiple related records, such as orders, commissions, reminders, products, and administrative actions.
+
+NFR-016 Performance
+The system shall load public catalog, product detail, cart, checkout, order, vendor, and admin pages within an acceptable time under normal project-scale usage.
+
+NFR-017 Search Responsiveness
+The system shall return product and global search results quickly enough for normal interactive use.
+
+NFR-018 Pagination
+The system shall support paginated access for large record sets such as products, orders, reports, reviews, and user lists where applicable.
+
+NFR-019 Scalability
+The system design shall allow additional products, vendors, users, orders, reviews, and reports to be added without requiring changes to the main architecture.
+
+NFR-020 Maintainability
+The system shall be organized into clear backend modules and frontend services/components so that future changes can be made without unnecessary changes to unrelated areas.
+
+NFR-021 Modularity
+The backend shall separate business areas such as identity, users, vendors, products, cart, orders, delivery, reviews, reports, notifications, reminders, commissions, and administration.
+
+NFR-022 Frontend Structure
+The frontend shall separate pages, reusable components, services, stores, entity views, commands, projections, and workflows.
+
+NFR-023 Testability
+The system shall include automated tests for important business rules, including registration policy, product service behavior, category service behavior, cart behavior, order payment flow, commission logic, reminders, admin permissions, and frontend entity/command behavior.
+
+NFR-024 Usability
+The system shall provide clear navigation for customers, vendors, and administrators.
+
+NFR-025 Accessibility
+The system shall use readable labels, meaningful buttons, form fields, and status messages so that users can understand and operate the interface.
+
+NFR-026 Responsive Design
+The frontend shall support use on common desktop and mobile screen sizes.
+
+NFR-027 Data Persistence
+The system shall persist backend data in a relational database.
+
+NFR-028 Guest Data Handling
+The system shall store guest order references locally in the browser only for the purpose of showing guest order history on the same device/browser.
+
+NFR-029 Configuration
+The system shall keep configurable values such as payment phone number, payment-change window, customer problem window, and database connection details in configuration files or environment variables.
+
+NFR-030 Time-Based Rules
+The system shall use backend-controlled timing rules for payment-change windows, cancellation windows, reminder processing, and commission release eligibility.
+
+NFR-031 Auditability
+The system shall keep enough records to review important actions such as vendor applications, admin requests, product approvals, reports, reviews, commissions, notifications, and vendor activities.
+
+NFR-032 Logging
+The backend shall log important system activity and errors to support troubleshooting.
+
+NFR-033 Error Handling
+The backend shall return structured errors with appropriate HTTP status codes for validation failures, missing records, permission errors, and server errors.
+
+NFR-034 User Feedback
+The frontend shall display success and error messages after user actions such as login, checkout, reminder changes, product submission, moderation actions, and administrative updates.
+
+NFR-035 Data Privacy
+The system shall display only the information needed for each user role and shall hide private fields when the user does not have permission to view them.
+
+NFR-036 Image Handling
+The system shall support product, vendor, and gift-flow images through stored image URLs.
+
+NFR-037 Extensibility
+The system shall allow future additions such as external email delivery, SMS delivery, additional payment methods, extra delivery zones, and expanded recommendation methods without replacing the core platform.
+
+NFR-038 Browser Compatibility
+The frontend shall support modern browsers used by typical customers, vendors, and administrators.
+
+NFR-039 Database Portability
+The system shall use standard database access patterns so the PostgreSQL-backed deployment can be configured by environment.
+
+NFR-040 Deployment Readiness
+The system shall support separate runtime configuration for local and production environments.
+
+NFR-041 Recovery from Invalid Actions
+The system shall prevent invalid actions such as submitting past reminders, checking out unavailable stock, changing payment after the allowed window, or accessing records owned by another user.
+
+NFR-042 Consistent Formatting
+The system shall display dates, currency values, statuses, and identifiers consistently across customer, vendor, and administrator views.
+
+NFR-043 Notification Persistence
+The system shall persist in-app notifications so users can view them after they are created.
+
+NFR-044 Background Processing
+The system shall support scheduled backend processing for due reminders and commission-related background tasks.
+
+NFR-045 External Notification Limitation
+The system shall treat external email or SMS sending as an infrastructure extension. The current system shall persist and display in-app notifications, while external delivery can be integrated later without changing the in-app notification model.
+
+
+5. BUSINESS RULES
+
+BR-001 Product Approval
+Only approved products shall be visible in the public product catalog.
+
+BR-002 Vendor Ownership
+A vendor shall only manage products, delivery pricing, gift flows, orders, analytics, and commissions linked to that vendor.
+
+BR-003 Cart Ownership
+A registered customer's backend cart shall only be accessible to that customer or an authorized administrator where permitted.
+
+BR-004 Guest Orders
+A guest order shall be tracked only when the correct guest order details are available.
+
+BR-005 Payment Change Window
+A registered customer may change payment method only during the configured payment-change window after order placement.
+
+BR-006 Cancellation Window
+A registered customer may cancel an order only during the configured cancellation window after order placement.
+
+BR-007 Instapay Requirement
+An Instapay order shall require transaction IDs before payment can be confirmed.
+
+BR-008 Admin Payment Confirmation
+Only authorized administrators shall confirm or reject Instapay payments.
+
+BR-009 Customer Problem Window
+Vendor commission release shall wait until the configured customer problem window has passed after the vendor portion is completed.
+
+BR-010 Reminder Limit
+A user shall not exceed the maximum number of active reminders allowed by the system.
+
+BR-011 Reminder Date
+A reminder shall not be scheduled in the past.
+
+BR-012 Review Restriction
+Users with active review restrictions shall not be allowed to perform restricted review or comment actions.
+
+BR-013 Admin Permissions
+Administrative functions shall be available only to administrators with the required permission or to a super administrator.
+
+BR-014 Delivery Zone
+Checkout shall require a delivery zone before an order can be placed.
+
+BR-015 Stock Validation
+Checkout shall not proceed when cart items are unavailable, out of stock, or above available stock quantity.
+
+
+6. REQUIREMENTS SUMMARY
+
+The Giftastic system provides a complete online gift-shopping workflow for guests, customers, vendors, and administrators. The platform supports product discovery, gift flows, cart management, checkout, order tracking, delivery pricing, reviews, reports, notifications, reminders, vendor operations, commission handling, and administrative control. The system also includes security, authorization, validation, error handling, configuration, persistence, and maintainability requirements needed for a supervised academic or production-oriented software project.

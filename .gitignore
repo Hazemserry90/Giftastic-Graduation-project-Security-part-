@@ -1,0 +1,19 @@
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local logs and build output
+*.log
+dist/
+build/
+target/
+node_modules/
+
+# Vendored / generated third-party binaries and tooling
+tmp-mpp/
+.codex/
+*.nupkg
+*.chm
+*.dll

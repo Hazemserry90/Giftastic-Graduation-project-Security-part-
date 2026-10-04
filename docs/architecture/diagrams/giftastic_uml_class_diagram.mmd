@@ -1,0 +1,476 @@
+classDiagram
+    class User {
+        +UUID id
+        +String email
+        +String passwordHash
+        +boolean isBanned
+        +boolean requestedAdmin
+        +String fullName
+        +String phoneNumber
+        +String instapayRefundPhoneNumber
+        +String instapayRefundName
+        +LocalDate birthday
+        +List~Address~ addresses
+        +create(email, passwordHash) User
+        +banUser()
+        +unban()
+        +requestAdmin()
+        +updateProfile(fullName, phoneNumber, birthday)
+        +updateInstapayRefundDetails(phoneNumber, name)
+    }
+
+    class Address {
+        +String label
+        +String street
+        +String city
+        +String state
+        +String zipCode
+        +String country
+        +boolean isDefault
+    }
+
+    class Admin {
+        +UUID userId
+        +Set~AdminPermission~ permissions
+        +grantPermission(permission)
+        +revokePermission(permission)
+        +hasPermission(permission) boolean
+    }
+
+    class AdminRequest {
+        +UUID id
+        +UUID userId
+        +String message
+        +AdminRequestStatus status
+        +LocalDateTime requestedAt
+        +LocalDateTime reviewedAt
+        +UUID reviewedBy
+        +String reviewNotes
+        +LocalDateTime canReapplyAt
+        +create(userId, message) AdminRequest
+        +approve(reviewerId)
+        +reject(reviewerId, notes)
+        +invalidate(reviewerId, notes)
+        +resetCooldown(adminId)
+    }
+
+    class Vendor {
+        +UUID userId
+        +UUID supplierId
+        +String storeName
+        +String description
+        +String logoUrl
+        +String bannerUrl
+        +String contactEmail
+        +String contactPhone
+        +String address
+        +String websiteUrl
+        +String instagramUrl
+        +String facebookUrl
+        +String workingHours
+        +boolean isVerified
+        +verify()
+        +deactivate()
+        +update(...)
+    }
+
+    class VendorApplication {
+        +UUID id
+        +UUID userId
+        +String storeName
+        +String description
+        +VendorApplicationStatus status
+        +LocalDateTime submittedAt
+        +LocalDateTime reviewedAt
+        +UUID reviewedBy
+        +String rejectionReason
+        +submit(...) VendorApplication
+        +approve(reviewerId)
+        +reject(reviewerId, reason)
+    }
+
+    class VendorActivity {
+        +UUID id
+        +UUID vendorId
+        +VendorActivityType activityType
+        +String description
+        +UUID relatedEntityId
+        +String metadata
+        +LocalDateTime occurredAt
+    }
+
+    class Product {
+        +UUID id
+        +UUID supplierId
+        +String name
+        +String description
+        +BigDecimal price
+        +VendorPricingMode pricingMode
+        +ProductDetails details
+        +ProductStatus status
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+        +LocalDateTime publishedAt
+        +ProductReviewRequestStatus reviewRequestStatus
+        +BigDecimal averageRating
+        +Integer reviewCount
+        +Integer stockQuantity
+        +BigDecimal discountPercentage
+        +List~Category~ categories
+        +List~ProductImage~ images
+        +create(...) Product
+        +update(name, description, price, details)
+        +submitForApproval(message)
+        +approve(reviewerId)
+        +reject(reason, reviewerId)
+        +disable()
+        +enable()
+        +updateStock(stockQuantity)
+        +decreaseStock(quantity)
+        +setDiscount(percentage, startDate, endDate)
+        +getDiscountedPrice() BigDecimal
+    }
+
+    class ProductDetails {
+        +BigDecimal giftWrapPrice
+        +BigDecimal engravingPrice
+        +BigDecimal customMessagePrice
+        +String videoUrl
+        +boolean allowsEngraving
+        +boolean allowsCustomMessage
+        +boolean allowsGiftWrap
+        +boolean requiresDeliveryDate
+        +int minDeliveryDays
+        +int maxDeliveryDays
+        +String tags
+        +TargetGender gender
+        +String occasion
+        +String recipientType
+        +String vendorSku
+        +boolean handmade
+        +boolean madeToOrder
+        +boolean customizable
+        +createDefault() ProductDetails
+        +configurePersonalization(...)
+        +configureDelivery(...)
+        +configureMarketing(...)
+        +configureVendorInfo(...)
+    }
+
+    class ProductImage {
+        +UUID id
+        +UUID productId
+        +String url
+        +boolean primary
+        +int displayOrder
+        +markAsPrimary()
+        +unmarkPrimary()
+        +updateDisplayOrder(order)
+    }
+
+    class Category {
+        +UUID id
+        +UUID categoryId
+        +String categoryName
+        +String name
+        +List~Product~ products
+    }
+
+    class Cart {
+        +UUID id
+        +UUID customerId
+        +List~CartItem~ items
+        +LocalDateTime updatedAt
+        +addOrUpdateItem(productId, quantity, groupId, metadata)
+        +updateItemQuantity(productId, groupId, newQuantity)
+        +removeItem(productId, groupId)
+        +removeGroup(groupId)
+        +consolidateDuplicateItems() boolean
+    }
+
+    class CartItem {
+        +UUID productId
+        +int quantity
+        +String groupId
+        +String metadata
+        +updateQuantity(quantity)
+        +updateMetadata(metadata)
+    }
+
+    class Order {
+        +UUID id
+        +UUID customerId
+        +GuestInfo guestInfo
+        +OrderStatus status
+        +List~OrderItem~ items
+        +BigDecimal totalAmount
+        +LocalDateTime placedAt
+        +String shippingAddress
+        +String paymentMethod
+        +String customerName
+        +String customerEmail
+        +Set~String~ instapayTransactionIds
+        +LocalDateTime paymentMethodLockedAt
+        +UUID deliveryZoneId
+        +BigDecimal deliveryCost
+        +LocalDateTime estimatedDeliveryDate
+        +boolean commissionPaid
+        +place(...) Order
+        +placeAsGuest(...) Order
+        +canCancelOrDelete(now) boolean
+        +cancel(now)
+        +canChangePaymentMethod(now) boolean
+        +changePaymentMethod(...)
+        +submitInstapayTransactionIds(transactionIds)
+        +confirmInstapayPayment(adminId, now)
+        +rejectInstapayPayment(reason)
+        +updateVendorStatus(supplierId, next)
+        +isVendorPortionFinanciallyEligible(...) boolean
+        +invalidateVendorPortion(...)
+        +snapshotVendorFinancials(...)
+        +updateEstimatedDelivery(estimatedDate, notes)
+        +markCommissionAsPaid()
+    }
+
+    class OrderItem {
+        +UUID productId
+        +String productName
+        +String imageUrl
+        +int quantity
+        +BigDecimal price
+        +UUID supplierId
+        +String groupId
+        +String metadata
+    }
+
+    class GuestInfo {
+        +String firstName
+        +String lastName
+        +String email
+        +String phone
+        +String shippingAddress
+    }
+
+    class DeliveryZone {
+        +UUID id
+        +String zoneName
+        +String description
+        +boolean isActive
+        +create(zoneName, description) DeliveryZone
+        +activate()
+        +deactivate()
+    }
+
+    class VendorDeliveryPricing {
+        +UUID vendorId
+        +UUID zoneId
+        +BigDecimal deliveryCost
+        +LocalDateTime updatedAt
+        +create(vendorId, zoneId, deliveryCost) VendorDeliveryPricing
+        +updateCost(newCost)
+    }
+
+    class GiftFlow {
+        +UUID id
+        +UUID supplierId
+        +String name
+        +String description
+        +String configuration
+        +String imageUrl
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+        +create(...) GiftFlow
+        +update(name, description, imageUrl, configuration)
+    }
+
+    class FavoriteProduct {
+        +UUID id
+        +UUID userId
+        +UUID productId
+        +UUID flowId
+        +LocalDateTime addedAt
+        +forProduct(userId, productId) FavoriteProduct
+        +forFlow(userId, flowId) FavoriteProduct
+    }
+
+    class Review {
+        +UUID id
+        +UUID userId
+        +ReviewType reviewType
+        +UUID entityId
+        +BigDecimal rating
+        +String comment
+        +ReviewStatus status
+        +LocalDateTime createdAt
+        +UUID reviewedBy
+        +boolean isAnonymous
+        +double contentScore
+        +UUID orderId
+        +create(...) Review
+        +approve(moderatorId, notes)
+        +reject(moderatorId, notes)
+    }
+
+    class Report {
+        +UUID id
+        +UUID reporterId
+        +ReportType reportType
+        +UUID reportedEntityId
+        +String reason
+        +String description
+        +ReportStatus status
+        +LocalDateTime createdAt
+        +UUID reviewedBy
+        +String adminNotes
+        +create(...) Report
+        +markUnderReview(adminId)
+        +markActionTaken(adminId, notes)
+        +dismiss(adminId, notes)
+        +resolve(adminId, notes)
+    }
+
+    class Notification {
+        +UUID id
+        +UUID userId
+        +String title
+        +String message
+        +NotificationType type
+        +boolean read
+        +LocalDateTime createdAt
+        +String metadata
+        +create(...) Notification
+        +markAsRead()
+    }
+
+    class Reminder {
+        +UUID id
+        +UUID customerId
+        +String description
+        +LocalDateTime scheduledAt
+        +boolean processed
+        +create(customerId, description, scheduledAt) Reminder
+        +update(description, scheduledAt)
+        +markAsProcessed()
+    }
+
+    class Commission {
+        +UUID id
+        +UUID orderId
+        +UUID supplierId
+        +BigDecimal orderSubtotal
+        +BigDecimal commissionRate
+        +BigDecimal commissionAmount
+        +CommissionDirection direction
+        +CommissionStatus status
+        +LocalDateTime dueDate
+        +LocalDateTime paidAt
+        +LocalDateTime createdAt
+        +create(...) Commission
+        +createVendorPayout(...) Commission
+        +getPayableAmount() BigDecimal
+        +markAsPaid()
+        +markAsPaymentSubmitted()
+        +markAsOverdue()
+        +isOverdue() boolean
+    }
+
+    class CommissionPaymentRequest {
+        +UUID id
+        +UUID commissionId
+        +UUID supplierId
+        +String message
+        +String proofImageUrl
+        +PaymentRequestStatus status
+        +LocalDateTime submittedAt
+        +UUID reviewedBy
+        +String rejectionReason
+        +create(...) CommissionPaymentRequest
+        +approve(reviewerId)
+        +reject(reviewerId, reason)
+    }
+
+    class CommissionRule {
+        +UUID id
+        +RuleType type
+        +UUID supplierId
+        +BigDecimal rate
+        +LocalDateTime startDate
+        +LocalDateTime endDate
+        +boolean active
+        +UUID createdBy
+        +LocalDateTime createdAt
+    }
+
+    class OrderAssistanceRequest {
+        +UUID id
+        +UUID orderId
+        +UUID supplierId
+        +String message
+        +AssistanceStatus status
+        +LocalDateTime requestedAt
+        +LocalDateTime resolvedAt
+        +UUID resolvedBy
+        +String resolution
+    }
+
+    class OrderAssistanceMessage {
+        +UUID id
+        +UUID requestId
+        +UUID senderId
+        +AssistanceSenderRole senderRole
+        +String message
+        +LocalDateTime createdAt
+    }
+
+    User "1" *-- "0..*" Address
+    User "1" -- "0..1" Admin
+    Admin "1" o-- "0..*" AdminPermission
+    User "1" -- "0..*" AdminRequest
+    Admin "1" -- "0..*" AdminRequest : reviews
+
+    User "1" -- "0..1" Vendor
+    User "1" -- "0..*" VendorApplication
+    Admin "1" -- "0..*" VendorApplication : reviews
+    Vendor "1" -- "0..*" VendorActivity
+
+    Vendor "1" -- "0..*" Product
+    Product "1" *-- "1" ProductDetails
+    Product "1" *-- "0..*" ProductImage
+    Product "0..*" -- "0..*" Category
+
+    User "1" -- "0..1" Cart
+    Cart "1" *-- "0..*" CartItem
+    Product "1" -- "0..*" CartItem
+
+    User "1" -- "0..*" Order
+    Order "1" *-- "1..*" OrderItem
+    Order "1" *-- "0..1" GuestInfo
+    Product "1" -- "0..*" OrderItem
+    Vendor "1" -- "0..*" OrderItem
+    DeliveryZone "1" -- "0..*" Order
+
+    Vendor "1" -- "0..*" VendorDeliveryPricing
+    DeliveryZone "1" -- "0..*" VendorDeliveryPricing
+    Vendor "1" -- "0..*" GiftFlow
+
+    User "1" -- "0..*" FavoriteProduct
+    Product "1" -- "0..*" FavoriteProduct
+    GiftFlow "1" -- "0..*" FavoriteProduct
+
+    User "1" -- "0..*" Review
+    Order "1" -- "0..*" Review
+    User "1" -- "0..*" Report
+    Admin "1" -- "0..*" Report : reviews
+    User "1" -- "0..*" Notification
+    User "1" -- "0..*" Reminder
+
+    Order "1" -- "0..*" Commission
+    Vendor "1" -- "0..*" Commission
+    Commission "1" -- "0..*" CommissionPaymentRequest
+    Vendor "1" -- "0..*" CommissionPaymentRequest
+    Vendor "1" -- "0..*" CommissionRule
+    Admin "1" -- "0..*" CommissionRule : creates
+
+    Order "1" -- "0..*" OrderAssistanceRequest
+    Vendor "1" -- "0..*" OrderAssistanceRequest
+    OrderAssistanceRequest "1" *-- "0..*" OrderAssistanceMessage
