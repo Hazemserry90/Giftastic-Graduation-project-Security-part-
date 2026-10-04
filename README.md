@@ -262,7 +262,7 @@ Required Notice: Copyright © 2026 Giftastic Contributors
 Thank you to the team members who contributed to the project:
 
 - [OmarAhmed770](https://github.com/OmarAhmed770)
-- [Hazemserry90](https://github.com/Hazemserry90)
+- [MohanedElDeebGitHub](https://github.com/MohanedElDeebGitHub)
 - [Ahmed-Mohamed-Atef](https://github.com/Ahmed-Mohamed-Atef)
 - [FareedDehne](https://github.com/FareedDehne)
 - [amjad639](https://github.com/amjad639)
